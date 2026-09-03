@@ -241,6 +241,17 @@
   .final p{max-width:48ch;margin:18px auto 8px;color:var(--muted);font-size:18px}
   .final .reply{color:var(--jade);font-weight:600;margin-bottom:28px}
   .final .actions{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
+  .cform{max-width:520px;margin:34px auto 0;text-align:left;background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px 30px;box-shadow:0 20px 50px -30px rgba(30,26,22,.25)}
+  .cform .row{margin-bottom:16px}
+  .cform label{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:var(--ink)}
+  .cform input,.cform textarea{width:100%;font:inherit;font-size:15px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--cream);color:var(--ink)}
+  .cform input:focus,.cform textarea:focus{outline:none;border-color:var(--jade)}
+  .cform textarea{resize:vertical;min-height:110px}
+  .cform .two{display:flex;gap:14px}
+  .cform .two .row{flex:1}
+  @media(max-width:480px){.cform{padding:26px 20px}.cform .two{flex-direction:column;gap:0}}
+  .cform button{width:100%;justify-content:center;font-size:16px}
+  .cform .note{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
 
   footer{background:var(--ink);color:#b8afa3;padding:56px 0 38px;font-size:15px}
   footer .wrap{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px}
@@ -562,8 +573,41 @@
     <p class="reply">I reply within one working day.</p>
     <div class="actions">
       <a class="btn btn-wa" href="https://wa.me/85260710266">Message on WhatsApp</a>
-      <a class="btn btn-out" href="mailto:hello@example.com">Enquire by email</a>
+      <a class="btn btn-out" href="mailto:hi@civilcelebranthk.com">Enquire by email</a>
     </div>
+
+    <form class="cform" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="two">
+        <div class="row">
+          <label for="cf-name">Name</label>
+          <input id="cf-name" name="name" type="text" required>
+        </div>
+        <div class="row">
+          <label for="cf-email">Email</label>
+          <input id="cf-email" name="email" type="email" required>
+        </div>
+      </div>
+      <div class="two">
+        <div class="row">
+          <label for="cf-phone">Phone / WhatsApp</label>
+          <input id="cf-phone" name="phone" type="tel">
+        </div>
+        <div class="row">
+          <label for="cf-date">Wedding date</label>
+          <input id="cf-date" name="wedding_date" type="date">
+        </div>
+      </div>
+      <div class="row">
+        <label for="cf-venue">Venue (if known)</label>
+        <input id="cf-venue" name="venue" type="text">
+      </div>
+      <div class="row">
+        <label for="cf-msg">Message</label>
+        <textarea id="cf-msg" name="message" placeholder="Tell me a little about your plans"></textarea>
+      </div>
+      <button class="btn btn-jade" type="submit">Send enquiry</button>
+      <p class="note">Goes straight to hi@civilcelebranthk.com</p>
+    </form>
   </div>
 </section>
 
@@ -582,9 +626,9 @@
     <div>
       <h4>Contact</h4>
       <a href="https://wa.me/85260710266">WhatsApp · +852 6071 0266</a>
-      <a href="mailto:hello@example.com">hello@example.com</a>
+      <a href="mailto:hi@civilcelebranthk.com">hi@civilcelebranthk.com</a>
       <a href="tel:+85260710266">+852 6071 0266</a>
-      <span style="display:block;margin:7px 0;color:#9a9186">[Office address], Hong Kong</span>
+      <span style="display:block;margin:7px 0;color:#9a9186">4/F, 9 Queen's Road Central, Central, Hong Kong</span>
       <span style="display:block;margin:7px 0;color:#9a9186">English · Cantonese · Mandarin</span>
     </div>
   </div>
