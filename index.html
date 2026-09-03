@@ -49,7 +49,7 @@
   /* NAV */
   header.nav{position:sticky;top:0;z-index:40;background:rgba(246,242,233,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
   .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
-  .brand{font-family:"Bricolage Grotesque";font-weight:700;font-size:22px}
+  .brand{font-family:"Bricolage Grotesque";font-weight:700;font-size:22px;display:inline-flex;align-items:center}
   @media(max-width:480px){.brand{font-size:18px}.navcta{display:none}}
   .navright{display:flex;align-items:center;gap:22px}
   nav.links{display:flex;gap:24px;align-items:center;font-size:15px;font-weight:500}
@@ -115,15 +115,15 @@
   .venue-slot img{max-height:44px;max-width:150px;width:auto;height:auto;object-fit:contain}
   @media(max-width:480px){.venue-slot{padding:10px 14px;min-height:56px}.venue-slot img{max-height:32px;max-width:110px}}
 
-  section.block{padding:82px 0}
-  @media(max-width:640px){section.block{padding:56px 0}}
+  section.block{padding:64px 0}
+  @media(max-width:640px){section.block{padding:48px 0}}
   .kicker{color:var(--rose);font-weight:700;font-size:15px;margin-bottom:12px}
   .h2{font-size:clamp(32px,4.8vw,52px)}
   .lead{color:var(--muted);font-size:18px;max-width:54ch;margin-top:16px}
 
   /* STAT BAND */
   .stats{background:var(--ink);color:var(--cream)}
-  .stats .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:56px 30px;text-align:center}
+  .stats .wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;padding:44px 30px;text-align:center}
   .stat .n{font-family:"Bricolage Grotesque";font-weight:700;font-size:clamp(36px,5vw,56px);line-height:1;color:#fff}
   .stat .l{color:#b8afa3;margin-top:8px;font-size:16px}
   .stat+.stat{border-left:1px solid rgba(255,255,255,.14)}
@@ -241,17 +241,25 @@
   .final p{max-width:48ch;margin:18px auto 8px;color:var(--muted);font-size:18px}
   .final .reply{color:var(--jade);font-weight:600;margin-bottom:28px}
   .final .actions{display:flex;gap:13px;justify-content:center;flex-wrap:wrap}
-  .cform{max-width:520px;margin:34px auto 0;text-align:left;background:#fff;border:1px solid var(--line);border-radius:20px;padding:34px 30px;box-shadow:0 20px 50px -30px rgba(30,26,22,.25)}
-  .cform .row{margin-bottom:16px}
+  .cform{max-width:640px;margin:34px auto 0;text-align:left;background:#fff;border:1px solid var(--line);border-radius:20px;padding:30px 36px;box-shadow:0 20px 50px -30px rgba(30,26,22,.25)}
+  .cform .row{margin-bottom:14px}
   .cform label{display:block;font-size:14px;font-weight:600;margin-bottom:6px;color:var(--ink)}
-  .cform input,.cform textarea{width:100%;font:inherit;font-size:15px;padding:12px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--cream);color:var(--ink)}
+  .cform input,.cform textarea{width:100%;font:inherit;font-size:15px;padding:11px 14px;border:1.5px solid var(--line);border-radius:10px;background:var(--cream);color:var(--ink)}
   .cform input:focus,.cform textarea:focus{outline:none;border-color:var(--jade)}
-  .cform textarea{resize:vertical;min-height:110px}
+  .cform textarea{resize:vertical;min-height:80px}
   .cform .two{display:flex;gap:14px}
+  .cform .three{display:flex;gap:14px}
+  .cform .three .row{flex:1}
   .cform .two .row{flex:1}
-  @media(max-width:480px){.cform{padding:26px 20px}.cform .two{flex-direction:column;gap:0}}
+  @media(max-width:600px){.cform{padding:26px 20px}.cform .two,.cform .three{flex-direction:column;gap:0}}
   .cform button{width:100%;justify-content:center;font-size:16px}
   .cform .note{font-size:13px;color:var(--muted);margin-top:10px;text-align:center}
+  .cform [data-fs-error]{display:block;color:#b3392f;font-size:13px;margin-top:5px}
+  .cform [data-fs-error]:empty{display:none}
+  [data-fs-success]{background:var(--jade);color:var(--cream);border-radius:14px;padding:16px 18px;font-weight:600;margin:0 auto 18px;max-width:640px;text-align:center}
+  [data-fs-success]:empty{display:none}
+  [data-fs-error]:not(.cform *){color:#b3392f;font-size:14px;margin:0 auto 18px;max-width:640px;text-align:center}
+  [data-fs-error]:not(.cform *):empty{display:none}
 
   footer{background:var(--ink);color:#b8afa3;padding:56px 0 38px;font-size:15px}
   footer .wrap{display:grid;grid-template-columns:1.6fr 1fr 1fr;gap:40px}
@@ -259,7 +267,8 @@
   footer h4{color:#fff;font-family:"Bricolage Grotesque";font-weight:600;margin-bottom:14px;font-size:16px}
   footer a{color:#b8afa3;text-decoration:none;display:block;margin:7px 0}
   footer a:hover{color:var(--rose)}
-  .legal-line{border-top:1px solid rgba(255,255,255,.12);margin-top:34px;padding-top:20px;color:#877f74;font-size:13px}
+  .legal-line{border-top:1px solid rgba(255,255,255,.12);margin-top:22px;padding-top:14px;color:#877f74;font-size:13px;white-space:nowrap;overflow-x:auto}
+  @media(max-width:640px){.legal-line{white-space:normal}}
   @media(max-width:720px){footer .wrap{grid-template-columns:1fr}}
 
   .wa{position:fixed;right:20px;bottom:20px;z-index:60;background:#25D366;color:#fff;border-radius:999px;padding:13px 20px;font-weight:700;text-decoration:none;box-shadow:0 12px 30px -8px rgba(0,0,0,.4);display:flex;gap:9px;align-items:center}
@@ -270,7 +279,7 @@
 
 <header class="nav">
   <div class="wrap">
-    <div class="brand">Civil Celebrant HK</div>
+    <a href="#" class="brand"><img src="civil-celebrant-hk-logo-nav.svg" alt="Civil Celebrant HK" style="height:30px;width:auto;display:block"></a>
     <div class="navright">
       <nav class="links">
         <a href="#about">About</a>
@@ -576,45 +585,59 @@
       <a class="btn btn-out" href="mailto:hi@civilcelebranthk.com">Enquire by email</a>
     </div>
 
-    <form class="cform" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+    <div data-fs-success></div>
+    <form class="cform" id="enquiry-form">
       <div class="two">
         <div class="row">
           <label for="cf-name">Name</label>
-          <input id="cf-name" name="name" type="text" required>
+          <input id="cf-name" name="name" type="text" data-fs-field required>
+          <span data-fs-error="name"></span>
         </div>
         <div class="row">
           <label for="cf-email">Email</label>
-          <input id="cf-email" name="email" type="email" required>
+          <input id="cf-email" name="email" type="email" data-fs-field required>
+          <span data-fs-error="email"></span>
         </div>
       </div>
       <div class="two">
         <div class="row">
           <label for="cf-phone">Phone / WhatsApp</label>
-          <input id="cf-phone" name="phone" type="tel">
+          <input id="cf-phone" name="phone" type="tel" data-fs-field>
+          <span data-fs-error="phone"></span>
         </div>
         <div class="row">
           <label for="cf-date">Wedding date</label>
-          <input id="cf-date" name="wedding_date" type="date">
+          <input id="cf-date" name="wedding_date" type="date" data-fs-field>
+          <span data-fs-error="wedding_date"></span>
         </div>
       </div>
       <div class="row">
-        <label for="cf-venue">Venue (if known)</label>
-        <input id="cf-venue" name="venue" type="text">
-      </div>
-      <div class="row">
         <label for="cf-msg">Message</label>
-        <textarea id="cf-msg" name="message" placeholder="Tell me a little about your plans"></textarea>
+        <textarea id="cf-msg" name="message" placeholder="Tell me a little about your plans" data-fs-field></textarea>
+        <span data-fs-error="message"></span>
       </div>
-      <button class="btn btn-jade" type="submit">Send enquiry</button>
+      <button class="btn btn-jade" type="submit" data-fs-submit-btn>Send enquiry</button>
       <p class="note">Goes straight to hi@civilcelebranthk.com</p>
     </form>
   </div>
 </section>
+<script>
+  window.formspree = window.formspree || function () { (formspree.q = formspree.q || []).push(arguments); };
+  formspree('initForm', {
+    formElement: '#enquiry-form',
+    formId: 'xqpkbvbn',
+    onSuccess: function () {
+      document.querySelector('[data-fs-success]').textContent = "Thank you, I've received your enquiry and will reply within one working day.";
+      document.getElementById('enquiry-form').reset();
+    }
+  });
+</script>
+<script src="https://unpkg.com/@formspree/ajax@1" defer></script>
 
 <footer>
   <div class="wrap">
     <div>
-      <div class="brand" style="font-size:24px;font-family:'Bricolage Grotesque';font-weight:700">Civil Celebrant HK</div>
+      <img src="civil-celebrant-hk-logo.svg" alt="Civil Celebrant HK" style="height:44px;width:auto;display:block;margin-bottom:14px">
       <p style="margin-top:12px;max-width:38ch;color:#9a9186">Solicitor and appointed Civil Celebrant of Marriages, Hong Kong. Legally recognised ceremonies in English, Cantonese and Mandarin.</p>
     </div>
     <div>
@@ -632,7 +655,7 @@
       <span style="display:block;margin:7px 0;color:#9a9186">English · Cantonese · Mandarin</span>
     </div>
   </div>
-  <div class="wrap legal-line">© 2026 [Practice / firm name]. Business Registration No. [BR number]. Ceremonies solemnised under the Marriage Ordinance (Cap. 181), Hong Kong SAR.</div>
+  <div class="wrap legal-line">© 2026 Chan Tsui Law Limited. Ceremonies solemnised under the Marriage Ordinance (Cap. 181), Hong Kong SAR.</div>
 </footer>
 
 <a class="wa" href="https://wa.me/85260710266" aria-label="Message on WhatsApp">WhatsApp</a>
