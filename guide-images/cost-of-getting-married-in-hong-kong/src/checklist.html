@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Hanken+Grotesk:wght@400;500;600&display=swap');
+/* PRODUCTION: replace the @import above with local @font-face rules, see
+   IMAGE-SYSTEM.md section 4. Edge falls back to Segoe UI without it. */
+:root{
+  --jade:#2E5A4E; --jade-2:#3F776A; --jade-dark:#244A40;
+  --cream:#F6F2E9; --cream-2:#EFE9DB;
+  --rose:#C7726A; --rose-soft:#F3D8D2; --gold:#E8C48A;
+  --ink:#1E1A16; --muted:#6d6459; --line:#E1D8C6;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1200px;height:444px;overflow:hidden;background:var(--cream);
+  font-family:'Hanken Grotesk',sans-serif;color:var(--ink)}
+.title-font{font-family:'Bricolage Grotesque',sans-serif;letter-spacing:-.015em;line-height:1.04}
+
+</style>
+</head>
+<body>
+
+  <svg width="1200" height="444" viewBox="0 0 1200 444">
+    <text x="60" y="60" class="title-font" font-size="34" font-weight="700" fill="#244A40">Paper costs after the wedding</text>
+    
+      <line x1="60" y1="110" x2="1140" y2="110" stroke="#E1D8C6" stroke-width="1" />
+      <text x="60" y="156" font-size="18" fill="#2E5A4E" font-weight="700">&#10003;</text>
+      <text x="100" y="156" font-size="24" fill="#1E1A16">Certified copy of the marriage certificate</text>
+      <text x="1140" y="156" text-anchor="end" font-size="21" fill="#6d6459">HK$280 per copy</text>
+      <line x1="60" y1="186" x2="1140" y2="186" stroke="#E1D8C6" stroke-width="1" />
+      <text x="60" y="232" font-size="18" fill="#2E5A4E" font-weight="700">&#10003;</text>
+      <text x="100" y="232" font-size="24" fill="#1E1A16">Search of the marriage records</text>
+      <text x="1140" y="232" text-anchor="end" font-size="21" fill="#6d6459">HK$140 per search</text>
+      <line x1="60" y1="262" x2="1140" y2="262" stroke="#E1D8C6" stroke-width="1" />
+      <text x="60" y="308" font-size="18" fill="#2E5A4E" font-weight="700">&#10003;</text>
+      <text x="100" y="308" font-size="24" fill="#1E1A16">Apostille from the High Court</text>
+      <text x="1140" y="308" text-anchor="end" font-size="21" fill="#6d6459">HK$125 per document</text>
+      <line x1="60" y1="338" x2="1140" y2="338" stroke="#E1D8C6" stroke-width="1" />
+      <text x="60" y="384" font-size="18" fill="#2E5A4E" font-weight="700">&#10003;</text>
+      <text x="100" y="384" font-size="24" fill="#1E1A16">Certified translation, if a foreign authority needs one</text>
+      <text x="1140" y="384" text-anchor="end" font-size="21" fill="#6d6459">set by the translator</text>
+  </svg>
+</body>
+</html>

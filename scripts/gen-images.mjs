@@ -11,11 +11,11 @@
  *   node scripts/gen-images.mjs <slug>
  *   node scripts/gen-images.mjs how-to-get-married-in-hong-kong
  *
- * Only the four phase-1 builders are implemented: timelineRail, stepsFlow,
- * decisionFlow, checklistCard, plus the social card. compareTable, costStack,
- * venueGrid, ceremonyStructure, bilingualCard and quoteCard (IMAGE-SYSTEM.md
- * section 3, builders 5-10) are not needed until guide 3 (compareTable,
- * costStack) and later, and are not ported yet.
+ * Implemented builders: timelineRail, stepsFlow, decisionFlow, checklistCard
+ * (phase 1), plus compareTable and costStack (added for guide 3, the cost
+ * guide), plus the social card. venueGrid, ceremonyStructure, bilingualCard
+ * and quoteCard (IMAGE-SYSTEM.md section 3, builders 7-10) are not needed
+ * until later guides and are not ported yet.
  *
  * FONTS: this generates a working @import fallback to Google Fonts so the
  * HTML renders correctly for review. Before the real Edge screenshot pass,
@@ -328,6 +328,116 @@ function checklistCard({ title, items }) {
 }
 
 // ---------------------------------------------------------------------------
+// Builder 5: compareTable
+// Column per route, row per attribute. Jade header chips, hairline rows,
+// row labels in the left gutter. Cells wrap; every row shares the height of
+// its tallest cell so the grid stays square.
+// ---------------------------------------------------------------------------
+function compareTable({ title, headers, rows, footnote }) {
+  const width = 1200;
+  const padX = 60;
+  const labelW = 250;
+  const colGap = 16;
+  const colW = (width - padX * 2 - labelW - colGap * headers.length) / headers.length;
+  const colX = (i) => padX + labelW + colGap + i * (colW + colGap);
+
+  const cellFont = TYPE.body - 4; // 20px, above the 19px caption floor
+  const cellLine = 26;
+  const wrappedRows = rows.map((r) => {
+    const labelLines = wrapSvgText(r.label, labelW - 16, 12);
+    const cellLines = r.cells.map((c) => wrapSvgText(c, colW - 28, 11));
+    const maxLines = Math.max(labelLines.length, ...cellLines.map((l) => l.length));
+    return { labelLines, cellLines, h: maxLines * cellLine + 30 };
+  });
+
+  const headerY = 96;
+  const headerH = 54;
+  const firstRowY = headerY + headerH + 14;
+  const tableH = wrappedRows.reduce((s, r) => s + r.h, 0);
+  const height = firstRowY + tableH + (footnote ? 56 : 30);
+
+  const headerCells = headers
+    .map(
+      (h, i) => `
+    <rect x="${colX(i)}" y="${headerY}" width="${colW}" height="${headerH}" rx="12" fill="${TOKENS.jade}" />
+    ${wrapSvgText(h, colW - 24, 12)
+      .map((line, li, arr) => `<text x="${colX(i) + colW / 2}" y="${headerY + headerH / 2 + 8 + (li - (arr.length - 1) / 2) * 24}" text-anchor="middle" class="title-font" font-size="${TYPE.tag + 2}" font-weight="600" fill="${TOKENS.cream}">${line}</text>`)
+      .join("")}`
+    )
+    .join("");
+
+  let y = firstRowY;
+  const bodyRows = wrappedRows
+    .map((r, ri) => {
+      const rowTop = y;
+      y += r.h;
+      const textY = rowTop + 34;
+      return `
+    ${ri === 0 ? "" : `<line x1="${padX}" y1="${rowTop}" x2="${width - padX}" y2="${rowTop}" stroke="${TOKENS.line}" stroke-width="1" />`}
+    ${r.labelLines
+      .map((line, li) => `<text x="${padX}" y="${textY + li * cellLine}" font-size="${cellFont}" font-weight="600" fill="${TOKENS.ink}">${line}</text>`)
+      .join("")}
+    ${r.cellLines
+      .map((lines, ci) =>
+        lines
+          .map((line, li) => `<text x="${colX(ci) + 14}" y="${textY + li * cellLine}" font-size="${cellFont}" fill="${TOKENS.muted}">${line}</text>`)
+          .join("")
+      )
+      .join("")}`;
+    })
+    .join("");
+
+  const body = `
+  <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <text x="${padX}" y="60" class="title-font" font-size="${TYPE.title}" font-weight="700" fill="${TOKENS.jadeDark}">${title}</text>
+    ${headerCells}
+    ${bodyRows}
+    ${footnote ? `<text x="${padX}" y="${height - 24}" font-size="${TYPE.caption}" fill="${TOKENS.muted}">${footnote}</text>` : ""}
+  </svg>`;
+  return shell({ width, height, body });
+}
+
+// ---------------------------------------------------------------------------
+// Builder 6: costStack
+// A receipt: grouped fee rows, label left, amount right in Bricolage, rose
+// group headings, hairline between rows. Notes sit under their label in the
+// muted caption style.
+// ---------------------------------------------------------------------------
+function costStack({ title, groups, footnote }) {
+  const width = 1200;
+  const padX = 60;
+  const headingH = 66;
+  const rowBase = 64;
+  const noteExtra = 30;
+
+  let y = 100;
+  let markup = "";
+  for (const g of groups) {
+    markup += `<text x="${padX}" y="${y + 40}" font-size="${TYPE.tag}" font-weight="600" fill="${TOKENS.rose}" letter-spacing=".06em">${String(g.heading).toUpperCase()}</text>`;
+    y += headingH;
+    g.items.forEach((it, i) => {
+      const rowH = rowBase + (it.note ? noteExtra : 0);
+      markup += `
+      <line x1="${padX}" y1="${y}" x2="${width - padX}" y2="${y}" stroke="${TOKENS.line}" stroke-width="1" />
+      <text x="${padX}" y="${y + 40}" font-size="${TYPE.body}" fill="${TOKENS.ink}">${it.label}</text>
+      ${it.note ? `<text x="${padX}" y="${y + 40 + 28}" font-size="${TYPE.caption + 1}" fill="${TOKENS.muted}">${it.note}</text>` : ""}
+      <text x="${width - padX}" y="${y + 40}" text-anchor="end" class="title-font" font-size="${TYPE.shapeLabel}" font-weight="600" fill="${TOKENS.jadeDark}">${it.amount}</text>`;
+      y += rowH;
+    });
+    y += 18;
+  }
+  const height = y + (footnote ? 46 : 20);
+
+  const body = `
+  <svg width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">
+    <text x="${padX}" y="60" class="title-font" font-size="${TYPE.title}" font-weight="700" fill="${TOKENS.jadeDark}">${title}</text>
+    ${markup}
+    ${footnote ? `<text x="${padX}" y="${height - 24}" font-size="${TYPE.caption}" fill="${TOKENS.muted}">${footnote}</text>` : ""}
+  </svg>`;
+  return shell({ width, height, body });
+}
+
+// ---------------------------------------------------------------------------
 // Social card, 1200x630. Hook headline, one word in rose, no subtitle.
 // ---------------------------------------------------------------------------
 function social({ hook, roseWord }) {
@@ -446,6 +556,63 @@ const GUIDES = {
     social: {
       builder: social,
       data: { hook: "Fifteen clear days, then you marry.", roseWord: "marry." },
+    },
+  },
+  "cost-of-getting-married-in-hong-kong": {
+    costs: {
+      builder: costStack,
+      data: {
+        title: "The two bills, side by side",
+        groups: [
+          {
+            heading: "Paid to the government, every route",
+            items: [
+              { label: "Notice of Intended Marriage", note: "Form MR1(S), paid once, marry within 3 months", amount: "HK$305" },
+            ],
+          },
+          {
+            heading: "Then one ceremony fee, pick a route",
+            items: [
+              { label: "Marriage Registry, weekday or Saturday morning", amount: "HK$715" },
+              { label: "Marriage Registry, Saturday afternoon or Sunday", amount: "HK$1,935" },
+              { label: "Licensed place of worship", note: "set by the church or body, no government ceremony fee", amount: "varies" },
+              { label: "Civil celebrant, anywhere else in Hong Kong", note: "no fee fixed by law, agreed privately with the celebrant", amount: "varies" },
+            ],
+          },
+        ],
+        footnote: "Government fees per the Immigration Department fee leaflet, correct as at September 2026.",
+      },
+    },
+    compare: {
+      builder: compareTable,
+      data: {
+        title: "What each route costs, and what you get",
+        headers: ["Marriage Registry", "Place of worship", "Civil celebrant"],
+        rows: [
+          { label: "Ceremony fee", cells: ["HK$715 or HK$1,935", "Set by the church", "Agreed privately"] },
+          { label: "Notice fee", cells: ["HK$305", "HK$305", "HK$305"] },
+          { label: "When", cells: ["The Registry's own slots", "7am to 7pm, doors open", "Any hour"] },
+          { label: "Where", cells: ["The Registry's hall", "The licensed building", "Anywhere else in Hong Kong"] },
+          { label: "Who officiates", cells: ["The Registrar", "A competent minister", "An appointed celebrant"] },
+        ],
+        footnote: "All three routes produce the same legal marriage under the Marriage Ordinance, Cap. 181.",
+      },
+    },
+    checklist: {
+      builder: checklistCard,
+      data: {
+        title: "Paper costs after the wedding",
+        items: [
+          { label: "Certified copy of the marriage certificate", qualifier: "HK$280 per copy" },
+          { label: "Search of the marriage records", qualifier: "HK$140 per search" },
+          { label: "Apostille from the High Court", qualifier: "HK$125 per document" },
+          { label: "Certified translation, if a foreign authority needs one", qualifier: "set by the translator" },
+        ],
+      },
+    },
+    social: {
+      builder: social,
+      data: { hook: "Two fees. One is just HK$305.", roseWord: "HK$305." },
     },
   },
 };
