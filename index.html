@@ -58,7 +58,8 @@
   header.nav{position:sticky;top:0;z-index:40;background:rgba(246,242,233,.93);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
   .nav .wrap{display:flex;align-items:center;justify-content:space-between;height:74px}
   .brand{font-family:"Bricolage Grotesque";font-weight:700;font-size:22px;display:inline-flex;align-items:center}
-  @media(max-width:480px){.brand span{font-size:17px!important}.navcta{display:none}}
+  @media(max-width:480px){.brand span{font-size:17px!important}.navcta{display:none!important}}
+  .navcta{white-space:nowrap}
   .navright{display:flex;align-items:center;gap:22px}
   nav.links{display:flex;gap:24px;align-items:center;font-size:15px;font-weight:500}
   nav.links a{text-decoration:none;color:var(--muted)}
